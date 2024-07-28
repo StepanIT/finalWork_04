@@ -32,7 +32,7 @@ const playRound = () => {
 
 const guessNumber = () => {
   while(true) {
-    userGuessNumber = prompt(`Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`);
+    userGuessNumber = parseInt(prompt(`Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`));
     if(userGuessNumber >= 1 && userGuessNumber <= userMarbles) {
       return;
     } else {
