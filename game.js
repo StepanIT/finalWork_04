@@ -1,5 +1,70 @@
 'use strict';
 
+  const rpsGame = () => {
+    const FIGURES_RUS = ['камень', 'ножницы', 'бумага'];
+  
+    const getRandomIntInclusive = (min, max) => Math.floor(Math.random() * 3);
+  
+    function start() {
+      const chooseWinner = (playerChoice, computerChoice) => {
+        if (playerChoice === computerChoice) {
+          return 'Ничья!';
+        } else if (
+          (playerChoice === FIGURES_RUS[0] &&
+            computerChoice === FIGURES_RUS[1]) ||
+          (playerChoice === FIGURES_RUS[1] &&
+            computerChoice === FIGURES_RUS[2]) ||
+          (playerChoice === FIGURES_RUS[2] && computerChoice === FIGURES_RUS[0])
+        ) {
+          return 'Вы победили!';
+        } else {
+          return 'Компьютер победил!';
+        }
+      };
+  
+      const play = () => {
+        let playerChoice = prompt('камень, ножницы или бумага?');
+  
+        if (playerChoice === null) {
+          const confirmExit = confirm('Точно ли вы хотите выйти?');
+          if (confirmExit) {
+            return null;
+          } else {
+            return play();
+          }
+        }
+  
+        const emptyLine = playerChoice.trim();
+        if (emptyLine === '') {
+          alert('Сделайте свой выбор');
+          return play();
+        }
+  
+        playerChoice = FIGURES_RUS.find(item =>
+          item.startsWith(playerChoice.toLowerCase())
+        );
+  
+        if (!FIGURES_RUS.includes(playerChoice) || playerChoice === '') {
+          alert('Некорректный выбор. Попробуйте снова.');
+          return play();
+        }
+  
+        const computerChoice = FIGURES_RUS[getRandomIntInclusive(0, 2)];
+  
+        alert(`Вы выбрали: ${playerChoice}`);
+        alert(`Компьютер выбрал: ${computerChoice}`);
+        const result = chooseWinner(playerChoice, computerChoice);
+        alert(result);
+  
+        return result;
+      };
+  
+      return play();
+    }
+  
+    return start();
+  };
+
 const createMarbleGame = () => {
   let userMarbles = 5;
   let botMarbles = 5;
@@ -98,10 +163,31 @@ const createMarbleGame = () => {
   };
 };
 
+const playGame = () => {
+  const rps = rpsGame();
+  let rpsResult = rps();
+  if (rpsResult === 'Ничья!') {
+    rpsResult = rps();
+  }
+  if (rpsResult) {
+    const marbleGame = createMarbleGame(rpsResult);
 
-const marbleGame = createMarbleGame();
+    while (
+      marbleGame.getUserMarbles() > 0 &&
+      marbleGame.getBotMarbles() > 0
+    ) {
+      marbleGame.playMarbleRound();
+    }
+  }
+};
 
+const startGame = () => {
+  playGame();
+  if (confirm('Хотите сыграть еще?')) {
+    startGame();
+  }
+};
 
-while (marbleGame.getUserMarbles() > 0 && marbleGame.getBotMarbles() > 0) {
-  marbleGame.playRound();
-}
+startGame();
+
+window.RPSMarbles = startGame;
