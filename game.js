@@ -89,15 +89,19 @@ const createMarbleGame = () => {
 
   return {
     playRound,
-    getUserMarbles: () => userMarbles,
-    getBotMarbles: () => botMarbles,
+    getUserMarbles() {
+      return userMarbles;
+    },
+    getBotMarbles() {
+      return botMarbles;
+    },
   };
 };
 
 
 const marbleGame = createMarbleGame();
 
-// Запуск игрового цикла
+
 while (marbleGame.getUserMarbles() > 0 && marbleGame.getBotMarbles() > 0) {
   marbleGame.playRound();
 }
