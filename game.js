@@ -4,13 +4,15 @@ const createMarbleGame = () => {
 
   let userMarbles = 5;
   let botMarbles = 5;
-  let guessNumberrr;
+  let userGuessNumber;
+  const evenNumber = 'четное';
+  const oddNumber = 'нечетное';
 
-  const evenOrOdd = (number) => {
-    if (number % 2 === 0) {
-      return 'четное';
+  const evenOrOdd = (userGuessNumber) => {
+    if (userGuessNumber % 2 === 0) {
+      return evenNumber;
   } else {
-      return 'нечетное';
+      return oddNumber;
   }
 };
 
@@ -30,48 +32,42 @@ const playRound = () => {
 
 const guessNumber = () => {
   while(true) {
-    guessNumberrr = prompt(`Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`);
-    if(guessNumberrr >= 1 && guessNumberrr <= userMarbles) {
+    userGuessNumber = prompt(`Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`);
+    if(userGuessNumber >= 1 && userGuessNumber <= userMarbles) {
       return;
     } else {
       alert(`Введите число от 1 до ${userMarbles}`);
     }
   }
-}
+} 
 
 guessNumber();
 let botGuess;
 if (Math.random() < 0.5) {
-  botGuess = 'четное';
-  alert('Бот думает, что ваше число четное.');
+  botGuess = evenNumber;
+  alert(`Бот думает, что ваше число ${evenNumber}.`);
   
 } else {
-  botGuess = 'нечетное';
-  alert('Бот думает, что ваше число нечетное.');
+  botGuess = oddNumber;
+  alert(`Бот думает, что ваше число ${oddNumber}.`);
   
 };
 
 
-const actualParity = evenOrOdd();
+const actualParity = evenOrOdd(userGuessNumber);
   if (botGuess === actualParity) {
-    alert(`Бот угадал! Он забирает ${guessNumberrr} шариков.`);
-    userMarbles = userMarbles - guessNumberrr;
-    botMarbles = botMarbles + guessNumberrr;
+    alert(`Бот угадал! Он забирает ${userGuessNumber} шариков.`);
+    userMarbles = userMarbles - userGuessNumber;
+    botMarbles += userGuessNumber;
 } else {
-    alert(`Бот не угадал! Вы забираете ${guessNumberrr} шариков.`);
-    userMarbles = userMarbles + guessNumberrr;
-    botMarbles = botMarbles - guessNumberrr;
+    alert(`Бот не угадал! Вы забираете ${userGuessNumber} шариков.`);
+    userMarbles += userGuessNumber;
+    botMarbles = botMarbles - userGuessNumber;
 }
-
+ return playRound();
         
     
 
-  
-    return {
-        playRound: playRound(),
-        getUserMarbles: () => userMarbles,
-        getBotMarbles: () => botMarbles
-    };
 
 
 const marbleGame = createMarbleGame();
