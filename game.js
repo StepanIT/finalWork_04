@@ -1,71 +1,71 @@
 'use strict';
 
-  const rpsGame = () => {
-    const FIGURES_RUS = ['камень', 'ножницы', 'бумага'];
-  
-    const getRandomIntInclusive = (min, max) => Math.floor(Math.random() * 3);
-  
-    function start() {
-      const chooseWinner = (playerChoice, computerChoice) => {
-        if (playerChoice === computerChoice) {
-          return 'Ничья!';
-        } else if (
-          (playerChoice === FIGURES_RUS[0] &&
+const rpsGame = () => {
+  const FIGURES_RUS = ['камень', 'ножницы', 'бумага'];
+
+  const getRandomIntInclusive = (min, max) => Math.floor(Math.random() * 3);
+
+  function start() {
+    const chooseWinner = (playerChoice, computerChoice) => {
+      if (playerChoice === computerChoice) {
+        return 'Ничья!';
+      } else if (
+        (playerChoice === FIGURES_RUS[0] &&
             computerChoice === FIGURES_RUS[1]) ||
           (playerChoice === FIGURES_RUS[1] &&
             computerChoice === FIGURES_RUS[2]) ||
           (playerChoice === FIGURES_RUS[2] && computerChoice === FIGURES_RUS[0])
-        ) {
-          return 'Вы победили!';
-        } else {
-          return 'Компьютер победил!';
-        }
-      };
-  
-      const play = () => {
-        let playerChoice = prompt('камень, ножницы или бумага?');
-  
-        if (playerChoice === null) {
-          const confirmExit = confirm('Точно ли вы хотите выйти?');
-          if (confirmExit) {
-            return null;
-          } else {
-            return play();
-          }
-        }
-  
-        const emptyLine = playerChoice.trim();
-        if (emptyLine === '') {
-          alert('Сделайте свой выбор');
-          return play();
-        }
-  
-        playerChoice = FIGURES_RUS.find(item =>
-          item.startsWith(playerChoice.toLowerCase())
-        );
-  
-        if (!FIGURES_RUS.includes(playerChoice) || playerChoice === '') {
-          alert('Некорректный выбор. Попробуйте снова.');
-          return play();
-        }
-  
-        const computerChoice = FIGURES_RUS[getRandomIntInclusive(0, 2)];
-  
-        alert(`Вы выбрали: ${playerChoice}`);
-        alert(`Компьютер выбрал: ${computerChoice}`);
-        const result = chooseWinner(playerChoice, computerChoice);
-        alert(result);
-  
-        return result;
-      };
-  
-      return play();
-    }
-  
-    return start();
-  };
+      ) {
+        return 'Вы победили!';
+      } else {
+        return 'Компьютер победил!';
+      }
+    };
 
-const createMarbleGame = () => {
+    const play = () => {
+      let playerChoice = prompt('камень, ножницы или бумага?');
+
+      if (playerChoice === null) {
+        const confirmExit = confirm('Точно ли вы хотите выйти?');
+        if (confirmExit) {
+          return null;
+        } else {
+          return play();
+        }
+      }
+
+      const emptyLine = playerChoice.trim();
+      if (emptyLine === '') {
+        alert('Сделайте свой выбор');
+        return play();
+      }
+
+      playerChoice = FIGURES_RUS.find(item =>
+        item.startsWith(playerChoice.toLowerCase()),
+      );
+
+      if (!FIGURES_RUS.includes(playerChoice) || playerChoice === '') {
+        alert('Некорректный выбор. Попробуйте снова.');
+        return play();
+      }
+
+      const computerChoice = FIGURES_RUS[getRandomIntInclusive()];
+
+      alert(`Вы выбрали: ${playerChoice}`);
+      alert(`Компьютер выбрал: ${computerChoice}`);
+      const result = chooseWinner(playerChoice, computerChoice);
+      alert(result);
+
+      return result;
+    };
+
+    return play();
+  }
+
+  return start();
+};
+
+const createMarbleGame = firstPlayer => {
   let userMarbles = 5;
   let botMarbles = 5;
   const evenNumber = 'четное';
@@ -90,6 +90,7 @@ const createMarbleGame = () => {
       alert('У бота закончились шарики. Вы победили');
       return;
     }
+
     const userMove = () => {
       let userGuessNumber;
       while (true) {
@@ -110,17 +111,30 @@ const createMarbleGame = () => {
         alert(`Бот угадал! Он забирает ${userGuessNumber} шариков.`);
         userMarbles -= userGuessNumber;
         botMarbles += userGuessNumber;
+        if (userMarbles <= 0) {
+          alert('У вас закончились шарики. Бот выиграл');
+          return;
+        } else if (botMarbles <= 0) {
+          alert('У бота закончились шарики. Вы победили');
+          return;
+        }
+
       } else {
         alert(`Бот не угадал! Вы забираете ${userGuessNumber} шариков.`);
         userMarbles += userGuessNumber;
         botMarbles -= userGuessNumber;
+        if (userMarbles <= 0) {
+          alert('У вас закончились шарики. Бот выиграл');
+          return;
+        } else if (botMarbles <= 0) {
+          alert('У бота закончились шарики. Вы победили');
+          return;
+        }
       }
-    };
-    userMove();
 
-    if (userMarbles <= 0 || botMarbles <= 0) {
-      return playRound();
-    }
+    };
+
+
     const botMove = () => {
       const botGuessNumber = Math.floor(Math.random() * botMarbles) + 1;
       const actualParity = evenOrOdd(botGuessNumber);
@@ -142,13 +156,39 @@ const createMarbleGame = () => {
         alert(`Вы угадали! Вы забираете ${botGuessNumber} шариков.`);
         userMarbles += botGuessNumber;
         botMarbles -= botGuessNumber;
+        if (userMarbles <= 0) {
+          alert('У вас закончились шарики. Бот выиграл');
+          return;
+        } else if (botMarbles <= 0) {
+          alert('У бота закончились шарики. Вы победили');
+          return;
+        }
       } else {
         alert(`Вы не угадали! Бот забирает ${botGuessNumber} шариков.`);
         userMarbles -= botGuessNumber;
         botMarbles += botGuessNumber;
+        if (userMarbles <= 0) {
+          alert('У вас закончились шарики. Бот выиграл');
+          return;
+        } else if (botMarbles <= 0) {
+          alert('У бота закончились шарики. Вы победили');
+          return;
+        }
       }
+
     };
-    botMove();
+
+    if (firstPlayer === 'Вы победили!') {
+      userMove();
+      if (userMarbles > 0 && botMarbles > 0) {
+        botMove();
+      }
+    } else if (firstPlayer === 'Компьютер победил!') {
+      botMove();
+      if (userMarbles > 0 && botMarbles > 0) {
+        userMove();
+      }
+    }
   };
 
 
@@ -165,9 +205,9 @@ const createMarbleGame = () => {
 
 const playGame = () => {
   const rps = rpsGame();
-  let rpsResult = rps();
+  let rpsResult = rps;
   if (rpsResult === 'Ничья!') {
-    rpsResult = rps();
+    return;
   }
   if (rpsResult) {
     const marbleGame = createMarbleGame(rpsResult);
@@ -176,7 +216,7 @@ const playGame = () => {
       marbleGame.getUserMarbles() > 0 &&
       marbleGame.getBotMarbles() > 0
     ) {
-      marbleGame.playMarbleRound();
+      marbleGame.playRound();
     }
   }
 };
