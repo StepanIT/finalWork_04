@@ -94,11 +94,25 @@ const createMarbleGame = firstPlayer => {
     const userMove = () => {
       let userGuessNumber;
       while (true) {
-        userGuessNumber = parseInt(prompt(`Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`));
-        if (userGuessNumber >= 1 && userGuessNumber <= userMarbles) {
-          break;
-        } else {
+        userGuessNumber = prompt(`Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`);
+        
+        if (userGuessNumber === null) {
+          const confirmExit = confirm('Точно ли вы хотите выйти?');
+          if (confirmExit) {
+            return null;
+          } else {
+            continue;
+          }
+        }
+        
+        
+        userGuessNumber = parseInt(userGuessNumber.trim());
+        if (isNaN(userGuessNumber) || userGuessNumber <= 0) {
+          alert('Некорректный ввод. Попробуйте снова.');
+        } else if (userGuessNumber > userMarbles) {
           alert(`Введите число от 1 до ${userMarbles}.`);
+        } else {
+          break;
         }
       }
 
@@ -144,7 +158,26 @@ const createMarbleGame = firstPlayer => {
 
       let userChoice;
       while (true) {
-        userChoice = prompt(`Введите ваше предположение: ${evenNumber} или ${oddNumber}`).toLowerCase();
+        userChoice = prompt(`Введите ваше предположение: ${evenNumber} или ${oddNumber}`);
+
+
+        if (userChoice === null) {
+          const confirmExit = confirm('Точно ли вы хотите выйти?');
+          if (confirmExit) {
+            return null;
+          } else {
+            continue;
+          }
+        }
+  
+        const emptyLine = userChoice.trim();
+        if (emptyLine === '') {
+          alert('Сделайте свой выбор');
+          continue;
+        }
+
+        userChoice = userChoice.toLowerCase();
+
         if (userChoice === evenNumber || userChoice === oddNumber) {
           break;
         } else {
@@ -175,6 +208,7 @@ const createMarbleGame = firstPlayer => {
           return;
         }
       }
+
 
     };
 
