@@ -94,18 +94,19 @@ const createMarbleGame = firstPlayer => {
     const userMove = () => {
       let userGuessNumber;
       while (true) {
-        userGuessNumber = prompt(`Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`);
-        
+        userGuessNumber = prompt(
+          `Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`);
+
         if (userGuessNumber === null) {
           const confirmExit = confirm('Точно ли вы хотите выйти?');
           if (confirmExit) {
-            return true;
+            throw stop;
           } else {
             continue;
           }
         }
-        
-        
+
+
         userGuessNumber = parseInt(userGuessNumber.trim());
         if (isNaN(userGuessNumber) || userGuessNumber <= 0) {
           alert('Некорректный ввод. Попробуйте снова.');
@@ -132,7 +133,6 @@ const createMarbleGame = firstPlayer => {
           alert('У бота закончились шарики. Вы победили');
           return;
         }
-
       } else {
         alert(`Бот не угадал! Вы забираете ${userGuessNumber} шариков.`);
         userMarbles += userGuessNumber;
@@ -145,7 +145,6 @@ const createMarbleGame = firstPlayer => {
           return;
         }
       }
-
     };
 
 
@@ -153,23 +152,25 @@ const createMarbleGame = firstPlayer => {
       const botGuessNumber = Math.floor(Math.random() * botMarbles) + 1;
       const actualParity = evenOrOdd(botGuessNumber);
 
-      alert('Бот загадал количество шариков. Угадайте, четное или нечетное это число.');
+      alert(
+        'Бот загадал количество шариков. Угадайте, четное или нечетное это число.');
 
 
       let userChoice;
       while (true) {
-        userChoice = prompt(`Введите ваше предположение: ${evenNumber} или ${oddNumber}`);
+        userChoice = prompt(
+          `Введите ваше предположение: ${evenNumber} или ${oddNumber}`);
 
 
         if (userChoice === null) {
           const confirmExit = confirm('Точно ли вы хотите выйти?');
           if (confirmExit) {
-            return true;
+            throw stop;
           } else {
             continue;
           }
         }
-  
+
         const emptyLine = userChoice.trim();
         if (emptyLine === '') {
           alert('Сделайте свой выбор');
@@ -185,7 +186,8 @@ const createMarbleGame = firstPlayer => {
           userChoice = evenNumber;
           break;
         } else if (
-          userChoice.startsWith('н', 'не', 'неч', 'нече', 'нечет', 'нечетн', 'нечетно') ||
+          userChoice.startsWith(
+            'н', 'не', 'неч', 'нече', 'нечет', 'нечетн', 'нечетно') ||
           userChoice.startsWith(oddNumber)
         ) {
           userChoice = oddNumber;
@@ -193,8 +195,6 @@ const createMarbleGame = firstPlayer => {
         } else {
           alert(`Пожалуйста, введите ${evenNumber} или ${oddNumber}.`);
         }
-        
-        
       }
 
       if (userChoice === actualParity) {
@@ -220,8 +220,6 @@ const createMarbleGame = firstPlayer => {
           return;
         }
       }
-
-
     };
 
     if (firstPlayer === 'Вы победили!') {
@@ -251,7 +249,7 @@ const createMarbleGame = firstPlayer => {
 
 const playGame = () => {
   const rps = rpsGame();
-  let rpsResult = rps;
+  const rpsResult = rps;
   if (rpsResult === 'Ничья!') {
     return;
   }
@@ -262,7 +260,9 @@ const playGame = () => {
       marbleGame.getUserMarbles() > 0 &&
       marbleGame.getBotMarbles() > 0
     ) {
-      marbleGame.playRound();
+      if (marbleGame.playRound()) {
+        return;
+      }
     }
   }
 };
