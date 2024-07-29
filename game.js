@@ -5,7 +5,7 @@ const rpsGame = () => {
 
   const getRandomIntInclusive = (min, max) => Math.floor(Math.random() * 3);
 
-  function start() {
+  const start = () => {
     const chooseWinner = (playerChoice, computerChoice) => {
       if (playerChoice === computerChoice) {
         return 'Ничья!';
@@ -60,7 +60,7 @@ const rpsGame = () => {
     };
 
     return play();
-  }
+  };
 
   return start();
 };
@@ -95,7 +95,8 @@ const createMarbleGame = firstPlayer => {
       let userGuessNumber;
       while (true) {
         userGuessNumber = prompt(
-          `Введите количество шариков, которое вы хотите загадать от 1 до ${userMarbles}:`);
+            `Введите количество шариков,
+            которое вы хотите загадать от 1 до ${userMarbles}:`);
 
         if (userGuessNumber === null) {
           const confirmExit = confirm('Точно ли вы хотите выйти?');
@@ -153,13 +154,14 @@ const createMarbleGame = firstPlayer => {
       const actualParity = evenOrOdd(botGuessNumber);
 
       alert(
-        'Бот загадал количество шариков. Угадайте, четное или нечетное это число.');
+          `Бот загадал количество шариков.
+          Угадайте, четное или нечетное это число.`);
 
 
       let userChoice;
       while (true) {
         userChoice = prompt(
-          `Введите ваше предположение: ${evenNumber} или ${oddNumber}`);
+            `Введите ваше предположение: ${evenNumber} или ${oddNumber}`);
 
 
         if (userChoice === null) {
@@ -187,7 +189,7 @@ const createMarbleGame = firstPlayer => {
           break;
         } else if (
           userChoice.startsWith(
-            'н', 'не', 'неч', 'нече', 'нечет', 'нечетн', 'нечетно') ||
+              'н', 'не', 'неч', 'нече', 'нечет', 'нечетн', 'нечетно') ||
           userChoice.startsWith(oddNumber)
         ) {
           userChoice = oddNumber;
