@@ -178,11 +178,23 @@ const createMarbleGame = firstPlayer => {
 
         userChoice = userChoice.toLowerCase();
 
-        if (userChoice === evenNumber || userChoice === oddNumber) {
+        if (
+          userChoice.startsWith('ч', 'че', 'чет', 'четн', 'четно') ||
+          userChoice.startsWith(evenNumber)
+        ) {
+          userChoice = evenNumber;
+          break;
+        } else if (
+          userChoice.startsWith('н', 'не', 'неч', 'нече', 'нечет', 'нечетн', 'нечетно') ||
+          userChoice.startsWith(oddNumber)
+        ) {
+          userChoice = oddNumber;
           break;
         } else {
           alert(`Пожалуйста, введите ${evenNumber} или ${oddNumber}.`);
         }
+        
+        
       }
 
       if (userChoice === actualParity) {
