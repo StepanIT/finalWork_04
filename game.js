@@ -99,7 +99,7 @@ const createMarbleGame = firstPlayer => {
         if (userGuessNumber === null) {
           const confirmExit = confirm('Точно ли вы хотите выйти?');
           if (confirmExit) {
-            return null;
+            return true;
           } else {
             continue;
           }
@@ -164,7 +164,7 @@ const createMarbleGame = firstPlayer => {
         if (userChoice === null) {
           const confirmExit = confirm('Точно ли вы хотите выйти?');
           if (confirmExit) {
-            return null;
+            return true;
           } else {
             continue;
           }
